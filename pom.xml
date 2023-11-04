@@ -72,7 +72,12 @@
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
         </dependency>
-
+        <!--        数据库同步 flyway-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>8.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -87,6 +92,16 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <configuration>
+                    <driver>com.mysql.cj.jdbc.Driver</driver>
+                    <url>jdbc:mysql://localhost:3306/staffsync?useSSL=false&amp;characterEncoding=utf-8</url>
+                    <user>root</user>
+                    <password>root</password>
                 </configuration>
             </plugin>
         </plugins>
