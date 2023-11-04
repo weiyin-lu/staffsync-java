@@ -35,7 +35,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-<!--        持久层相关 mybatis-flex-->
+        <!--        持久层相关 mybatis-flex-->
         <dependency>
             <groupId>com.mybatis-flex</groupId>
             <artifactId>mybatis-flex-spring-boot-starter</artifactId>
@@ -60,6 +60,17 @@
             <groupId>com.mybatis-flex</groupId>
             <artifactId>mybatis-flex-codegen</artifactId>
             <version>1.7.3</version>
+        </dependency>
+        <!--        swagger相关-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
         </dependency>
 
     </dependencies>
