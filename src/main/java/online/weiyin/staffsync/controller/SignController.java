@@ -27,7 +27,7 @@ import static online.weiyin.staffsync.entity.table.UserTableDef.USER;
  */
 @Tag(name = "鉴权模块-用户认证相关")
 @RestController
-@RequestMapping("/sign")
+@RequestMapping("/authorize/sign")
 public class SignController {
 
     @Autowired

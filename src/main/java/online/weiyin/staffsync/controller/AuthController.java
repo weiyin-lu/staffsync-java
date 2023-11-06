@@ -23,7 +23,7 @@ import java.util.List;
 @Tag(name = "鉴权模块-权限信息获取")
 @RestController
 @SaCheckLogin
-@RequestMapping("/auth")
+@RequestMapping("/authorize/information")
 public class AuthController {
 
     @Operation(summary = "获取用户权限信息", description = "获取当前登录用户的权限列表")

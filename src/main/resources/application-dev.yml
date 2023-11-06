@@ -47,4 +47,11 @@ springdoc:
     # 是否启用swagger-ui
     enabled: true
     path: /doc
-
+  api-docs:
+    path: /v3/api-docs
+# knife4j配置
+knife4j:
+  # 增强功能，只使用ui可以将其关闭
+  enable: false
+  setting:
+    language: zh_cn
