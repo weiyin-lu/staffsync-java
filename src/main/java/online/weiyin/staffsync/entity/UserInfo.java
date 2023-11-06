@@ -45,9 +45,23 @@ public class UserInfo implements Serializable {
     private String phone;
 
     /**
+     * 部门
+     */
+    private String department;
+
+    /**
+     * 岗位
+     */
+    private String post;
+
+    /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
      * 删除标识
      */
     @Column(isLogicDelete = true)
     private String isDelete;
-
 }

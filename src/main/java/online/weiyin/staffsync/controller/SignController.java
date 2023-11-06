@@ -16,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static online.weiyin.staffsync.entity.table.UserInfoTableDef.USER_INFO;
 import static online.weiyin.staffsync.entity.table.UserTableDef.USER;
 
 /**
@@ -35,16 +39,26 @@ public class SignController {
     @Autowired
     UserInfoService userinfoService;
 
-    @Operation(summary = "登录", description = "根据账号密码登录系统")
+    @Operation(summary = "登录", description = "根据账号密码登录系统，返回当前账号的登录、角色、权限、个人信息等")
     @PostMapping("/login")
-    public Result login(@RequestBody Authorize info) {
+    public Result login(@RequestBody Authorize login) {
         QueryWrapper wrapper = QueryWrapper.create()
-                .where(USER.USER_ID.eq(info.getUsername()))
-                .and(USER.PASSWORD.eq(SecureUtil.md5(info.getPassword())));
+                .where(USER.USER_ID.eq(login.getUsername()))
+                .and(USER.PASSWORD.eq(SecureUtil.md5(login.getPassword())));
         User one = userService.getOne(wrapper);
         if (one != null) {
-            StpUtil.login(info.getUsername());
-            return Result.success("登录成功", StpUtil.getTokenInfo());
+//            登录
+            StpUtil.login(login.getUsername());
+//            封装一个map，返回当前账号的登录、角色、权限、个人信息等
+            UserInfo info = userinfoService.getOne(QueryWrapper.create()
+                    .where(USER_INFO.USER_ID.eq(login.getUsername())));
+            Map<String, Object> resultMap = new HashMap<String, Object>();
+            resultMap.put("token", StpUtil.getTokenInfo());
+            resultMap.put("role", StpUtil.getRoleList());
+            resultMap.put("permission", StpUtil.getPermissionList());
+            resultMap.put("info", info);
+//            返回
+            return Result.success("登录成功", resultMap);
         } else {
             return Result.failed("登录失败，账号或密码错误", Code.AUTHORIZE_ERROR);
         }
@@ -63,7 +77,7 @@ public class SignController {
     public Result register(Authorize reg) {
 //        构造对象
         User user = new User(null, reg.getUsername(), SecureUtil.md5(reg.getPassword()), "0");
-        UserInfo userInfo = new UserInfo(null, reg.getUsername(), null, null, "");
+        UserInfo userInfo = new UserInfo(null, reg.getUsername(), null, null, null, null, null, "0");
 //        在用户表中插入登录的基本信息
         userService.save(user);
 //        在个人信息表中插入一条基本的占位记录
