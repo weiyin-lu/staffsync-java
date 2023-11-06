@@ -4,6 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
@@ -27,6 +28,7 @@ import java.util.List;
 public class AuthController {
 
     @Operation(summary = "获取用户权限信息", description = "获取当前登录用户的权限列表")
+    @ApiResponse(responseCode = "data",description = "权限列表")
     @GetMapping("/permissionList")
     public Result getPermissionList() {
         List<String> permissionList = StpUtil.getPermissionList();
@@ -34,6 +36,7 @@ public class AuthController {
     }
 
     @Operation(summary = "获取用户角色信息", description = "获取当前登录用户的角色列表")
+    @ApiResponse(responseCode = "data",description = "角色列表")
     @GetMapping("/roleList")
     public Result getRoleList() {
         List<String> roleList = StpUtil.getRoleList();
@@ -41,6 +44,7 @@ public class AuthController {
     }
 
     @Operation(summary = "检查登录状态", description = "检查当前会话是否登录")
+    @ApiResponse(responseCode = "data",description = "无")
     @SaIgnore
     @GetMapping("/isLogin")
     public Result isLogin() {

@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.User;
 import online.weiyin.staffsync.entity.UserInfo;
@@ -39,7 +40,8 @@ public class SignController {
     @Autowired
     UserInfoService userinfoService;
 
-    @Operation(summary = "登录", description = "根据账号密码登录系统，返回当前账号的登录、角色、权限、个人信息等")
+    @Operation(summary = "登录", description = "根据账号密码登录系统")
+    @ApiResponse(responseCode = "data",description = "当前账号的认证、角色、权限、个人信息")
     @PostMapping("/login")
     public Result login(@RequestBody Authorize login) {
         QueryWrapper wrapper = QueryWrapper.create()
@@ -65,6 +67,7 @@ public class SignController {
     }
 
     @Operation(summary = "登出", description = "登出当前用户")
+    @ApiResponse(responseCode = "data",description = "无")
     @GetMapping("/logout")
     public Result logout() {
         StpUtil.logout();
@@ -72,6 +75,7 @@ public class SignController {
     }
 
     @Operation(summary = "注册", description = "根据账号密码注册一个用户")
+    @ApiResponse(responseCode = "data",description = "无")
     @PostMapping("/register")
     @Transactional
     public Result register(Authorize reg) {
