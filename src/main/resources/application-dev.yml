@@ -8,10 +8,6 @@ spring:
     url: jdbc:mysql://localhost:3306/staffsync?useSSL=false&characterEncoding=utf-8
     username: root
     password: root
-  # swagger策略配置
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
   flyway:
     #是否启用
     enabled: true

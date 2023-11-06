@@ -54,17 +54,6 @@
             <artifactId>mybatis-flex-codegen</artifactId>
             <version>1.7.3</version>
         </dependency>
-        <!--        swagger相关-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
-        </dependency>
         <!--        数据库同步 flyway-->
         <dependency>
             <groupId>org.flywaydb</groupId>

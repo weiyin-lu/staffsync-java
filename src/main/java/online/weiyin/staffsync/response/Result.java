@@ -1,8 +1,6 @@
 package online.weiyin.staffsync.response;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,15 +16,10 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @ToString
-@ApiModel("统一封装返回集")
 public class Result<T> {
-    @ApiModelProperty("返回代码")
     private Integer code = 200;
-    @ApiModelProperty("返回代码对应的消息")
     private String msg = "default";
-    @ApiModelProperty("业务角度的（错误）原因")
     private String cause = null;
-    @ApiModelProperty("响应数据资源")
     private T data = null;
 
     public Result(T data) {
@@ -38,6 +31,7 @@ public class Result<T> {
     }
 
     public Result(String msg, T data) {
+        this.msg = msg;
         this.data = data;
     }
 
@@ -100,7 +94,7 @@ public class Result<T> {
      * 返回一条自定义消息内容的失败消息，必须包含错误类型
      *
      * @param cause 错误原因
-     * @param code 错误类型
+     * @param code  错误类型
      * @return
      */
     public static Result failed(String cause, Code code) {
