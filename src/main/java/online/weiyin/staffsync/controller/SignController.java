@@ -11,9 +11,7 @@ import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static online.weiyin.staffsync.entity.table.UserTableDef.USER;
 
@@ -24,7 +22,7 @@ import static online.weiyin.staffsync.entity.table.UserTableDef.USER;
  * @Time 2023/11/06 下午 01:54
  * @Author 卢子昂
  */
-
+@Tag(name="鉴权模块-用户认证相关")
 @RestController
 @RequestMapping("/sign")
 public class SignController {
@@ -32,8 +30,9 @@ public class SignController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/login")
-    public Result login(Login info) {
+    @Operation(summary = "登录", description = "根据账号密码登录系统")
+    @PostMapping("/login")
+    public Result login(@RequestBody Login info) {
         QueryWrapper wrapper = QueryWrapper.create()
                 .where(USER.USER_ID.eq(info.getUsername()))
                 .and(USER.PASSWORD.eq(SecureUtil.md5(info.getPassword())));

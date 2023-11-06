@@ -13,13 +13,18 @@ import org.springframework.stereotype.Component;
  * @Time 2023/11/05 下午 07:28
  * @Author 卢子昂
  */
+@Schema(name="响应结果集",description = "服务器统一响应结果集")
 @Getter
 @Setter
 @ToString
 public class Result<T> {
+    @Schema(description = "响应编码")
     private Integer code = 200;
+    @Schema(description = "编码消息")
     private String msg = "default";
+    @Schema(description = "响应原因，在异常响应中携带")
     private String cause = null;
+    @Schema(description = "响应数据集")
     private T data = null;
 
     public Result(T data) {

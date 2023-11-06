@@ -54,6 +54,12 @@
             <artifactId>mybatis-flex-codegen</artifactId>
             <version>1.7.3</version>
         </dependency>
+        <!--        接口文档-->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.6.9</version>
+        </dependency>
         <!--        数据库同步 flyway-->
         <dependency>
             <groupId>org.flywaydb</groupId>

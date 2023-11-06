@@ -12,11 +12,13 @@ import lombok.Data;
  * @Author 卢子昂
  */
 
+@Schema(name = "登录请求dto", description = "登录方法使用")
 @Data
 @AllArgsConstructor
 public class Login {
 
+    @Schema(description = "账号")
     private String username;
-
+    @Schema(description = "密码")
     private String password;
 }

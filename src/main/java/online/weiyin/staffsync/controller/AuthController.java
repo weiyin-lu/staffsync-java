@@ -20,23 +20,27 @@ import java.util.List;
  * @Time 2023/11/05 下午 07:42
  * @Author 卢子昂
  */
+@Tag(name = "鉴权模块-权限信息获取")
 @RestController
 @SaCheckLogin
 @RequestMapping("/auth")
 public class AuthController {
 
+    @Operation(summary = "获取用户权限信息", description = "获取当前登录用户的权限列表")
     @GetMapping("/permissionList")
     public Result getPermissionList() {
         List<String> permissionList = StpUtil.getPermissionList();
         return Result.success(permissionList);
     }
 
+    @Operation(summary = "获取用户角色信息", description = "获取当前登录用户的角色列表")
     @GetMapping("/roleList")
     public Result getRoleList() {
         List<String> roleList = StpUtil.getRoleList();
         return Result.success(roleList);
     }
 
+    @Operation(summary = "检查登录状态", description = "检查当前会话是否登录")
     @SaIgnore
     @GetMapping("/isLogin")
     public Result isLogin() {
@@ -48,6 +52,7 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "超级管理员登录", description = "开发环境使用，直接登录超级管理员账号")
     @SaIgnore
     @GetMapping("/admin")
     public Result admin() {

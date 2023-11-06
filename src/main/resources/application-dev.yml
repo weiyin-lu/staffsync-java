@@ -19,6 +19,10 @@ spring:
     clean-disabled: true
     # 如果数据库不是空表，需要设置成 true，否则启动报错
     baseline-on-migrate: true
+  mvc:
+    pathmatch:
+      # 路径匹配策略（swagger配置）
+      matching-strategy: ant_path_matcher
 sa-token:
   # token 名称（同时也是 cookie 名称）
   token-name: staffsync
@@ -34,5 +38,13 @@ sa-token:
   token-style: uuid
   # 是否输出操作日志
   is-log: true
+# 日志配置
 logging:
   config: classpath:logging/logback.xml
+# springdoc配置
+springdoc:
+  swagger-ui:
+    # 是否启用swagger-ui
+    enabled: true
+    path: /doc
+
