@@ -13,7 +13,7 @@ import lombok.Getter;
 public enum Code {
     NOT_FOUND(404, "未找到资源"),
     SERVER_ERROR(500, "服务器错误"),
-    AUTHORIZE_ERROR(1001,"认证错误"),
+    AUTHORIZE_ERROR(1001,"鉴权错误"),
     INSERT_ERROR(1002,"添加/插入错误"),
     UPDATE_ERROR(1003,"修改/更新错误"),
     ;

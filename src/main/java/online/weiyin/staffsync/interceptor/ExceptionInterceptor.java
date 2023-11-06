@@ -1,6 +1,6 @@
 package online.weiyin.staffsync.interceptor;
 
-import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.SaTokenException;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,12 +16,24 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionInterceptor {
 
+    /**
+     * 鉴权相关异常处理
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(SaTokenException.class)
+    public Result authorizeHandler(SaTokenException e) {
+        return Result.failed(e.getMessage(), Code.AUTHORIZE_ERROR);
+    }
+
+    /**
+     * 通用异常处理
+     * @param e
+     * @return
+     */
     @ExceptionHandler(Exception.class)
-    public Result exceptionHandler(Exception e) {
-        if (e instanceof NotLoginException) {
-            return Result.failed(e.getMessage(), Code.AUTHORIZE_ERROR);
-        } else {
-            return Result.failed(e.getMessage(), Code.SERVER_ERROR);
-        }
+    public Result defaultHandler(Exception e) {
+        return Result.failed(e.getMessage(), Code.SERVER_ERROR);
     }
 }

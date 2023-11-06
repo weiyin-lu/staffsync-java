@@ -23,6 +23,8 @@ class SaUtilTest {
         StpUtil.login("admin");
         List<String> permissionList = StpUtil.getPermissionList();
         System.out.println(permissionList);
+//        ‘*’代表一切权限
+        System.out.println(StpUtil.hasPermission("any"));
     }
 
     @Test
@@ -30,5 +32,7 @@ class SaUtilTest {
         StpUtil.login("admin");
         List<String> roleList = StpUtil.getRoleList();
         System.out.println(roleList);
+//        '*'代表一切角色
+        System.out.println(StpUtil.hasRole("any"));
     }
 }
