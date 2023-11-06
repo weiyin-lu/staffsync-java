@@ -41,7 +41,7 @@ public class Codegen {
 
         //设置表前缀和只生成哪些表
 //        globalConfig.setTablePrefix("ss_");
-//        globalConfig.setGenerateTable("1", "2");
+        globalConfig.setGenerateTable("ss_user_info");
 
         //设置生成 entity 并启用 Lombok
         globalConfig.setEntityGenerateEnable(true);
@@ -57,7 +57,7 @@ public class Codegen {
         globalConfig.setServiceImplGenerateEnable(true);
 
         //设置生成controller
-        globalConfig.setControllerGenerateEnable(true);
+//        globalConfig.setControllerGenerateEnable(true);
 
         //策略配置
         globalConfig.getStrategyConfig()

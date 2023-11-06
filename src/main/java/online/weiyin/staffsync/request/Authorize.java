@@ -5,17 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * @ClassName Login
- * @Description 登录请求dto
+ * @ClassName Authorize
+ * @Description 登录/注册请求dto
  * @Version 1.0.0
  * @Time 2023/11/06 下午 01:59
  * @Author 卢子昂
  */
 
-@Schema(name = "登录请求dto", description = "登录方法使用")
+@Schema(name = "登录与注册请求dto", description = "登录或注册时使用")
 @Data
 @AllArgsConstructor
-public class Login {
+public class Authorize {
 
     @Schema(description = "账号")
     private String username;

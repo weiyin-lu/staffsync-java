@@ -14,14 +14,14 @@ import lombok.NoArgsConstructor;
  * 用户个人信息 实体类。
  *
  * @author weiyin lu
- * @since 2023-11-04
+ * @since 2023-11-06
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(value = "ss_userinfo")
-public class Userinfo implements Serializable {
+@Table(value = "ss_user_info")
+public class UserInfo implements Serializable {
 
     /**
      * 数据主键

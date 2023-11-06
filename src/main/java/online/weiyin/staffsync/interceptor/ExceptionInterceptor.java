@@ -3,8 +3,13 @@ package online.weiyin.staffsync.interceptor;
 import cn.dev33.satoken.exception.SaTokenException;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLNonTransientException;
 
 /**
  * @ClassName ExceptionInterceptor
@@ -25,6 +30,20 @@ public class ExceptionInterceptor {
     @ExceptionHandler(SaTokenException.class)
     public Result authorizeHandler(SaTokenException e) {
         return Result.failed(e.getMessage(), Code.AUTHORIZE_ERROR);
+    }
+
+    /**
+     * 数据库操作异常处理
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public Result authorizeHandler(RuntimeException e) {
+        if(e instanceof DuplicateKeyException) {
+            return Result.failed("账号已存在", Code.INSERT_ERROR);
+        } else {
+            return Result.failed(e.getMessage(), Code.SERVER_ERROR);
+        }
     }
 
     /**
