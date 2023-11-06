@@ -20,8 +20,7 @@ class SaUtilTest {
 
     @Test
     void getPermissionList() {
-        StpUtil.login("admin");
-        List<String> permissionList = StpUtil.getPermissionList();
+        List<String> permissionList = StpUtil.getPermissionList("admin");
         System.out.println(permissionList);
 //        ‘*’代表一切权限
         System.out.println(StpUtil.hasPermission("any"));
@@ -29,8 +28,7 @@ class SaUtilTest {
 
     @Test
     void getRoleList() {
-        StpUtil.login("admin");
-        List<String> roleList = StpUtil.getRoleList();
+        List<String> roleList = StpUtil.getRoleList("admin");
         System.out.println(roleList);
 //        '*'代表一切角色
         System.out.println(StpUtil.hasRole("any"));

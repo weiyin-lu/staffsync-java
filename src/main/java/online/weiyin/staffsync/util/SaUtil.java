@@ -41,9 +41,9 @@ public class SaUtil implements StpInterface {
                 .on(PERMISSION.PERMISSION_ID.eq(ROLE_PERMISSION_RELEVANCE.PERMISSION_ID))
                 .leftJoin(ROLE).as("r")
                 .on(ROLE.ROLE_ID.eq(ROLE_PERMISSION_RELEVANCE.ROLE_ID))
-                .leftJoin(USER_ROLE_RELEVANCE)
-                .on(USER_ROLE_RELEVANCE.USER_ID.eq(ROLE.ROLE_ID))
-                .leftJoin(USER)
+                .leftJoin(USER_ROLE_RELEVANCE).as("ur")
+                .on(USER_ROLE_RELEVANCE.ROLE_ID.eq(ROLE.ROLE_ID))
+                .leftJoin(USER).as("u")
                 .on(USER.USER_ID.eq(USER_ROLE_RELEVANCE.USER_ID))
                 .where(USER.USER_ID.eq(o));
         List<String> permissionList = permissionService.listAs(wrapper, String.class);
