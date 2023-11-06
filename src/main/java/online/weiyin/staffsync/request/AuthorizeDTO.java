@@ -15,7 +15,7 @@ import lombok.Data;
 @Schema(name = "登录与注册请求dto", description = "登录或注册时使用")
 @Data
 @AllArgsConstructor
-public class Authorize {
+public class AuthorizeDTO {
 
     @Schema(description = "账号")
     private String username;

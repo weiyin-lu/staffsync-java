@@ -16,6 +16,7 @@ public enum Code {
     AUTHORIZE_ERROR(1001,"鉴权错误"),
     INSERT_ERROR(1002,"添加/插入错误"),
     UPDATE_ERROR(1003,"修改/更新错误"),
+    REMOVE_ERROR(1003,"删除错误"),
     ;
 
     private Integer code;

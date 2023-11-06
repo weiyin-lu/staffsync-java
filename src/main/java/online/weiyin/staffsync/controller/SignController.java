@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.User;
 import online.weiyin.staffsync.entity.UserInfo;
-import online.weiyin.staffsync.request.Authorize;
+import online.weiyin.staffsync.request.AuthorizeDTO;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.UserInfoService;
@@ -43,7 +43,7 @@ public class SignController {
     @Operation(summary = "登录", description = "根据账号密码登录系统")
     @ApiResponse(responseCode = "data",description = "当前账号的认证、角色、权限、个人信息")
     @PostMapping("/login")
-    public Result login(@RequestBody Authorize login) {
+    public Result login(@RequestBody AuthorizeDTO login) {
         QueryWrapper wrapper = QueryWrapper.create()
                 .where(USER.USER_ID.eq(login.getUsername()))
                 .and(USER.PASSWORD.eq(SecureUtil.md5(login.getPassword())));
@@ -78,7 +78,7 @@ public class SignController {
     @ApiResponse(responseCode = "data",description = "无")
     @PostMapping("/register")
     @Transactional
-    public Result register(Authorize reg) {
+    public Result register(AuthorizeDTO reg) {
 //        构造对象
         User user = new User(null, reg.getUsername(), SecureUtil.md5(reg.getPassword()), "0");
         UserInfo userInfo = new UserInfo(null, reg.getUsername(), null, null, null, null, null, "0");

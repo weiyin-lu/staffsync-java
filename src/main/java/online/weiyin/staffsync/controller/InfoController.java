@@ -1,6 +1,7 @@
 package online.weiyin.staffsync.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.util.UpdateEntity;
@@ -8,7 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.UserInfo;
-import online.weiyin.staffsync.request.OwnInfo;
+import online.weiyin.staffsync.request.OwnInfoDTO;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.UserInfoService;
@@ -37,8 +38,9 @@ public class InfoController {
 
     @Operation(summary = "修改基本信息", description = "修改当前账户的基本信息")
     @ApiResponse(responseCode = "data",description = "更新后的用户信息集合")
+    @SaCheckPermission("info.update")
     @PostMapping("/setInfo")
-    public Result setInfo(@RequestBody OwnInfo info) {
+    public Result setInfo(@RequestBody OwnInfoDTO info) {
 //        构造插入列表
         UserInfo of = UpdateEntity.of(UserInfo.class);
         of.setName(info.getName());

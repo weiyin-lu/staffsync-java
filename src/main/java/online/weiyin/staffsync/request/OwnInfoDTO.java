@@ -11,10 +11,10 @@ import lombok.Data;
  * @Time 2023/11/06 下午 09:53
  * @Author 卢子昂
  */
-@Schema(name="个人基本信息dto", description = "个人信息中的业务相关信息")
+@Schema(name = "个人基本信息dto", description = "个人信息中的业务相关信息")
 @Data
 @AllArgsConstructor
-public class OwnInfo {
+public class OwnInfoDTO {
 
     @Schema(description = "姓名")
     private String name;
