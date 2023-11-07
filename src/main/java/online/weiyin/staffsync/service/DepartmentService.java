@@ -2,6 +2,9 @@ package online.weiyin.staffsync.service;
 
 import com.mybatisflex.core.service.IService;
 import online.weiyin.staffsync.entity.Department;
+import online.weiyin.staffsync.request.DepartmentDTO;
+
+import java.util.List;
 
 /**
  *  服务层。
@@ -11,4 +14,5 @@ import online.weiyin.staffsync.entity.Department;
  */
 public interface DepartmentService extends IService<Department> {
 
+    List<DepartmentDTO> getDeptList(String deptCode);
 }
