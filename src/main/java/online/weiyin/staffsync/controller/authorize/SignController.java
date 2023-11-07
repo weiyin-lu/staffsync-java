@@ -44,9 +44,11 @@ public class SignController {
     @ApiResponse(responseCode = "data",description = "当前账号的认证、角色、权限、个人信息")
     @PostMapping("/login")
     public Result login(@RequestBody AuthorizeDTO login) {
+//        构造查询条件
         QueryWrapper wrapper = QueryWrapper.create()
                 .where(USER.USER_ID.eq(login.getUsername()))
                 .and(USER.PASSWORD.eq(SecureUtil.md5(login.getPassword())));
+//        查询是否有对应的记录
         User one = userService.getOne(wrapper);
         if (one != null) {
 //            登录

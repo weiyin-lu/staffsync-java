@@ -42,6 +42,7 @@ public class ExceptionInterceptor {
         if(e instanceof DuplicateKeyException) {
             return Result.failed("账号已存在", Code.INSERT_ERROR);
         } else {
+            e.printStackTrace();
             return Result.failed(e.getMessage(), Code.SERVER_ERROR);
         }
     }
@@ -53,6 +54,7 @@ public class ExceptionInterceptor {
      */
     @ExceptionHandler(Exception.class)
     public Result defaultHandler(Exception e) {
+        e.printStackTrace();
         return Result.failed(e.getMessage(), Code.SERVER_ERROR);
     }
 }

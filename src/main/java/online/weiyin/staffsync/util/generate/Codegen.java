@@ -1,4 +1,4 @@
-package online.weiyin.staffsync.generate;
+package online.weiyin.staffsync.util.generate;
 
 import com.mybatisflex.codegen.Generator;
 import com.mybatisflex.codegen.config.ColumnConfig;
