@@ -61,7 +61,7 @@ public class AuthController {
 
     @Operation(summary = "获取用户角色信息", description = "获取指定用户的角色列表（角色和角色描述）")
     @ApiResponse(responseCode = "data", description = "角色列表")
-    @GetMapping("/roleList/{userId}")
+    @GetMapping("/getroleList/{userId}")
     public Result getRoleListByUserId(
             @Parameter(description = "用户id")
             @PathVariable String userId) {

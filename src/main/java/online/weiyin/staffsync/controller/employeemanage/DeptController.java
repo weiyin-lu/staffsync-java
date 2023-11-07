@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.mybatisflex.core.query.QueryMethods.count;
 import static online.weiyin.staffsync.entity.table.DepartmentTableDef.DEPARTMENT;
 
 /**
@@ -99,7 +100,27 @@ public class DeptController {
         }
     }
 
-    public Result removeDept() {
-        return Result.failed();
+    @Operation(summary = "删除部门", description = "根据部门编码删除部门，被删除的部门不得有下属部门")
+    @ApiResponse(responseCode = "data", description = "无")
+    @SaCheckOr(
+            permission = @SaCheckPermission("admin.dept.remove"),
+            role = @SaCheckRole("admin")
+    )
+    @PutMapping("/removeDept/{deptCode}")
+    public Result removeDeptByDeptCode(@PathVariable String deptCode) {
+//        检查该部门是否有子部门，如有，拒绝删除
+        QueryWrapper wrapper = QueryWrapper.create()
+                .select(count(DEPARTMENT.SUPERIOR))
+                .where(DEPARTMENT.SUPERIOR.eq(deptCode));
+        Integer count = departmentService.getOneAs(wrapper, Integer.class);
+        if(count > 0) {
+            return Result.failed("该部门有未移去的下属部门",Code.REMOVE_ERROR);
+        } else {
+//            如果没有下属部门，进行删除
+            QueryWrapper wrapper1 = QueryWrapper.create()
+                    .where(DEPARTMENT.DEPT_CODE.eq(deptCode));
+            departmentService.remove(wrapper1);
+            return Result.success("删除成功");
+        }
     }
 }
