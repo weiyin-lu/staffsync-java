@@ -1,14 +1,15 @@
-package online.weiyin.staffsync.controller;
+package online.weiyin.staffsync.controller.granted;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.Permission;
-import online.weiyin.staffsync.request.KeyValueDTO;
+import online.weiyin.staffsync.request.PermissionDTO;
 import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @ClassName PermissionController
@@ -32,13 +36,13 @@ public class PermissionController {
     @Autowired
     PermissionService permissionService;
 
-    @Operation(summary = "添加权限", description = "添加一个新的权限（key：权限id；value：权限描述）")
+    @Operation(summary = "添加权限", description = "添加一个新的权限")
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckRole("admin")
     @PostMapping("/addPermission")
-    public Result addRole(@RequestBody KeyValueDTO dto) {
+    public Result addPermission(@RequestBody PermissionDTO dto) {
 //        构造对象
-        Permission permission = new Permission(null, dto.getKey(), dto.getValue(), "0");
+        Permission permission = new Permission(null, dto.getPermissionId(), dto.getPermissionId(), "0");
 //        执行
         permissionService.save(permission);
         return Result.success("添加成功");

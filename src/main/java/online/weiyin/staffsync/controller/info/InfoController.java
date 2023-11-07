@@ -1,4 +1,4 @@
-package online.weiyin.staffsync.controller;
+package online.weiyin.staffsync.controller.info;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
@@ -14,10 +14,7 @@ import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static online.weiyin.staffsync.entity.table.UserInfoTableDef.USER_INFO;
 
@@ -39,7 +36,7 @@ public class InfoController {
     @Operation(summary = "修改基本信息", description = "修改当前账户的基本信息")
     @ApiResponse(responseCode = "data",description = "更新后的用户信息集合")
     @SaCheckPermission("info.update")
-    @PostMapping("/setInfo")
+    @PutMapping("/setInfo")
     public Result setInfo(@RequestBody OwnInfoDTO info) {
 //        构造插入列表
         UserInfo of = UpdateEntity.of(UserInfo.class);

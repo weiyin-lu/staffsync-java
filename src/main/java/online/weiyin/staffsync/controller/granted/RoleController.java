@@ -1,4 +1,4 @@
-package online.weiyin.staffsync.controller;
+package online.weiyin.staffsync.controller.granted;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
@@ -7,17 +7,23 @@ import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.Role;
-import online.weiyin.staffsync.request.KeyValueDTO;
+import online.weiyin.staffsync.entity.UserRoleRelevance;
+import online.weiyin.staffsync.request.RoleDTO;
+import online.weiyin.staffsync.request.URrelevanceDTO;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.RoleService;
+import online.weiyin.staffsync.service.UserRoleRelevanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 import static online.weiyin.staffsync.entity.table.RoleTableDef.ROLE;
+import static online.weiyin.staffsync.entity.table.UserRoleRelevanceTableDef.USER_ROLE_RELEVANCE;
 
 /**
  * @ClassName RoleController
@@ -34,17 +40,19 @@ public class RoleController {
 
     @Autowired
     RoleService roleService;
+    @Autowired
+    UserRoleRelevanceService userRoleRelevanceService;
 
-    @Operation(summary = "添加角色", description = "添加一个新角色（key：角色id；value：角色描述）")
+    @Operation(summary = "添加角色", description = "添加一个新角色")
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckOr(
-            role = @SaCheckRole("admin"),
-            permission = @SaCheckPermission("admin.role.add")
+            permission = @SaCheckPermission("admin.role.add"),
+            role = @SaCheckRole("admin")
     )
     @PostMapping("/addRole")
-    public Result addRole(@RequestBody KeyValueDTO dto) {
+    public Result addRole(@RequestBody RoleDTO dto) {
 //        构造对象
-        Role role = new Role(null, dto.getKey(), dto.getValue(), "0");
+        Role role = new Role(null, dto.getRoleId(), dto.getRoleName(), "0");
 //        执行
         roleService.save(role);
         return Result.success("添加成功");
@@ -53,10 +61,10 @@ public class RoleController {
     @Operation(summary = "删除角色", description = "根据角色唯一id删除一个角色")
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckOr(
-            role = @SaCheckRole("admin"),
-            permission = @SaCheckPermission("admin.role.remove")
+            permission = @SaCheckPermission("admin.role.remove"),
+            role = @SaCheckRole("admin")
     )
-    @GetMapping("/removeRole/{roleId}")
+    @DeleteMapping("/removeRole/{roleId}")
     public Result removeRole(
             @Parameter(description = "角色id")
             @PathVariable String roleId) {
@@ -70,25 +78,35 @@ public class RoleController {
         }
     }
 
-    @Operation(summary = "为用户添加角色", description = "根据用户id和角色id为其添加角色（key：用户id；value：角色id）")
+    @Operation(summary = "为用户添加角色", description = "根据用户id和角色id为其添加角色")
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckOr(
-            role = @SaCheckRole("admin"),
-            permission = @SaCheckPermission("role.add")
+            permission = @SaCheckPermission("role.add"),
+            role = @SaCheckRole("admin")
     )
     @PostMapping("/addRoleForUser")
-    public Result addRoleForUser(@RequestBody KeyValueDTO dto) {
-        return Result.failed(Code.NOT_FOUND);
+    public Result addRoleForUser(@RequestBody URrelevanceDTO dto) {
+        UserRoleRelevance relevance = new UserRoleRelevance(null, dto.getUserId(), dto.getRoleId(), "0");
+        userRoleRelevanceService.save(relevance);
+        return Result.success("添加成功");
     }
 
-    @Operation(summary = "为用户移除角色", description = "根据用户id和角色id为其移除角色（key：用户id；value：角色id）")
+    @Operation(summary = "为用户移除角色", description = "根据用户id和角色id为其移除角色")
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckOr(
-            role = @SaCheckRole("admin"),
-            permission = @SaCheckPermission("role.remove")
+            permission = @SaCheckPermission("role.remove"),
+            role = @SaCheckRole("admin")
     )
-    @PostMapping("/addRoleForUser")
-    public Result removeRoleForUser(@RequestBody KeyValueDTO dto) {
-        return Result.failed(Code.NOT_FOUND);
+    @PutMapping("/removeRoleForUser")
+    public Result removeRoleForUser(@RequestBody URrelevanceDTO dto) {
+        QueryWrapper wrapper = QueryWrapper.create()
+                .where(USER_ROLE_RELEVANCE.USER_ID.eq(dto.getUserId()))
+                .and(USER_ROLE_RELEVANCE.ROLE_ID.eq(dto.getRoleId()));
+        boolean remove = userRoleRelevanceService.remove(wrapper);
+        if(remove) {
+            return Result.success("移除成功");
+        } else {
+            return Result.failed(Code.REMOVE_ERROR);
+        }
     }
 }

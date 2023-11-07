@@ -1,4 +1,4 @@
-package online.weiyin.staffsync.controller;
+package online.weiyin.staffsync.controller.authorize;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.crypto.SecureUtil;
@@ -78,7 +78,7 @@ public class SignController {
     @ApiResponse(responseCode = "data",description = "无")
     @PostMapping("/register")
     @Transactional
-    public Result register(AuthorizeDTO reg) {
+    public Result register(@RequestBody AuthorizeDTO reg) {
 //        构造对象
         User user = new User(null, reg.getUsername(), SecureUtil.md5(reg.getPassword()), "0");
         UserInfo userInfo = new UserInfo(null, reg.getUsername(), null, null, null, null, null, "0");

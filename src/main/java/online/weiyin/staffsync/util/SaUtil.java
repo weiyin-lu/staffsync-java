@@ -54,7 +54,7 @@ public class SaUtil implements StpInterface {
     public List<String> getRoleList(Object o, String s) {
 //        构造查询条件，会同时检查用户、角色、用户-角色关联三者的有效性（是否有被删除的记录）
         QueryWrapper wrapper = QueryWrapper.create()
-                .select(ROLE.ROLE_ID)
+                .select(distinct(ROLE.ROLE_ID))
                 .from(ROLE.as("r"))
                 .leftJoin(USER_ROLE_RELEVANCE).as("ur")
                 .on(ROLE.ROLE_ID.eq(USER_ROLE_RELEVANCE.ROLE_ID))
