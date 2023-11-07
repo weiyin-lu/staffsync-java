@@ -1,11 +1,8 @@
-package online.weiyin.staffsync.controller.granted;
+package online.weiyin.staffsync.controller.employeemanage;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
-import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.Permission;
@@ -18,17 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @ClassName PermissionController
- * @Description 授权模块-权限管理
+ * @Description 人员管理模块-权限管理
  * @Version 1.0.0
  * @Time 2023/11/06 下午 10:54
  * @Author 卢子昂
  */
-@Tag(name = "授权模块-权限管理")
+@Tag(name = "人员管理模块-权限管理")
 @RestController
 @SaCheckLogin
 @RequestMapping("/grant/permission")

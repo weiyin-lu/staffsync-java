@@ -1,4 +1,4 @@
-package online.weiyin.staffsync.controller.info;
+package online.weiyin.staffsync.controller.employeemanage;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
@@ -20,12 +20,12 @@ import static online.weiyin.staffsync.entity.table.UserInfoTableDef.USER_INFO;
 
 /**
  * @ClassName InfoController
- * @Description 基本信息模块
+ * @Description 人员管理模块-基本信息管理
  * @Version 1.0.0
  * @Time 2023/11/06 下午 09:50
  * @Author 卢子昂
  */
-@Tag(name = "基本信息模块")
+@Tag(name = "人员管理模块-基本信息管理")
 @RestController
 @SaCheckLogin
 @RequestMapping("/infomation")

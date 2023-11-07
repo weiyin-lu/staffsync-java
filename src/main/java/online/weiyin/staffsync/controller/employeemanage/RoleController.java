@@ -1,4 +1,4 @@
-package online.weiyin.staffsync.controller.granted;
+package online.weiyin.staffsync.controller.employeemanage;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
@@ -7,7 +7,6 @@ import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.Role;
@@ -27,12 +26,12 @@ import static online.weiyin.staffsync.entity.table.UserRoleRelevanceTableDef.USE
 
 /**
  * @ClassName RoleController
- * @Description 授权模块-角色管理
+ * @Description 人员管理模块-角色管理
  * @Version 1.0.0
  * @Time 2023/11/06 下午 10:17
  * @Author 卢子昂
  */
-@Tag(name = "授权模块-角色管理")
+@Tag(name = "人员管理模块-角色管理")
 @RestController
 @SaCheckLogin
 @RequestMapping("/grant/role")
