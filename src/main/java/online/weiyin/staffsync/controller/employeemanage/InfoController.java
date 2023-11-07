@@ -37,7 +37,7 @@ public class InfoController {
     @ApiResponse(responseCode = "data",description = "更新后的用户信息集合")
     @SaCheckPermission("info.update")
     @PutMapping("/setInfo")
-    public Result setInfo(@RequestBody OwnInfoDTO info) {
+    public Result setInfoByUserId(@RequestBody OwnInfoDTO info) {
 //        构造插入列表
         UserInfo of = UpdateEntity.of(UserInfo.class);
         of.setName(info.getName());

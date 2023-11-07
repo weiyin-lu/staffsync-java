@@ -1,13 +1,11 @@
 package online.weiyin.staffsync.mapper;
 
-import online.weiyin.staffsync.request.DepartmentDTO;
+import online.weiyin.staffsync.request.DepartmentTreeDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @ClassName DepartmentMapperTest
@@ -24,7 +22,7 @@ class DepartmentMapperTest {
 
     @Test
     void getDeptList() {
-        List<DepartmentDTO> zcb = departmentMapper.getDeptList("ZCB");
+        List<DepartmentTreeDTO> zcb = departmentMapper.getDeptList("ZCB");
         System.out.println(zcb);
     }
 }

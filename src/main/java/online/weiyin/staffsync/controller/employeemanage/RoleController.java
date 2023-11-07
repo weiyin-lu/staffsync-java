@@ -64,7 +64,7 @@ public class RoleController {
             role = @SaCheckRole("admin")
     )
     @DeleteMapping("/removeRole/{roleId}")
-    public Result removeRole(
+    public Result removeRoleByRoleId(
             @Parameter(description = "角色id")
             @PathVariable String roleId) {
         QueryWrapper wrapper = QueryWrapper.create()

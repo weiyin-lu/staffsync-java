@@ -45,8 +45,8 @@ public class AuthController {
 
     @Operation(summary = "获取用户权限信息", description = "获取指定用户的权限列表（权限和权限描述）")
     @ApiResponse(responseCode = "data", description = "权限列表")
-    @GetMapping("/permissionList/{userId}")
-    public Result getPermissionList(
+    @GetMapping("/getPermissionList/{userId}")
+    public Result getPermissionListByUserId(
             @Parameter(description = "用户id")
             @PathVariable String userId) {
 //        构造查询条件，根据鉴权时获取的列表获得对应的名称
@@ -62,7 +62,7 @@ public class AuthController {
     @Operation(summary = "获取用户角色信息", description = "获取指定用户的角色列表（角色和角色描述）")
     @ApiResponse(responseCode = "data", description = "角色列表")
     @GetMapping("/roleList/{userId}")
-    public Result getRoleList(
+    public Result getRoleListByUserId(
             @Parameter(description = "用户id")
             @PathVariable String userId) {
 //        构造查询条件，从鉴权时获取的角色列表获得对应的名称

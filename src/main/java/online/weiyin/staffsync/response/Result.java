@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @Time 2023/11/05 下午 07:28
  * @Author 卢子昂
  */
-@Schema(name="响应结果集",description = "服务器统一响应结果集")
+@Schema(name = "响应结果集", description = "服务器统一响应结果集")
 @Getter
 @Setter
 @ToString
@@ -83,6 +83,15 @@ public class Result<T> {
      */
     public static <T> Result success(String msg, T data) {
         return new Result(msg, data);
+    }
+
+    /**
+     * 返回一条失败消息，包含NOT_FOUND错误类型
+     *
+     * @return
+     */
+    public static Result failed() {
+        return new Result(Code.NOT_FOUND);
     }
 
     /**

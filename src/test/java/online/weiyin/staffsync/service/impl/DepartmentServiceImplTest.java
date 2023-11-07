@@ -1,15 +1,13 @@
 package online.weiyin.staffsync.service.impl;
 
 import cn.hutool.json.JSONUtil;
-import online.weiyin.staffsync.request.DepartmentDTO;
+import online.weiyin.staffsync.request.DepartmentTreeDTO;
 import online.weiyin.staffsync.service.DepartmentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @ClassName DepartmentServiceImplTest
@@ -26,7 +24,7 @@ class DepartmentServiceImplTest {
 
     @Test
     void getDeptList() {
-        List<DepartmentDTO> zcb = departmentService.getDeptList("XSZX");
+        List<DepartmentTreeDTO> zcb = departmentService.getDeptList("ZCB");
         System.out.println(JSONUtil.toJsonPrettyStr(zcb));
     }
 }
