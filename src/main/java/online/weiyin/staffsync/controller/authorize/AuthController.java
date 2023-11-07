@@ -28,12 +28,12 @@ import static online.weiyin.staffsync.entity.table.RoleTableDef.ROLE;
 
 /**
  * @ClassName AuthController
- * @Description 鉴权接口
+ * @Description 认证模块-认证信息获取
  * @Version 1.0.0
  * @Time 2023/11/05 下午 07:42
  * @Author 卢子昂
  */
-@Tag(name = "鉴权模块-权限信息获取")
+@Tag(name = "认证模块-认证信息获取")
 @RestController
 @SaCheckLogin
 @RequestMapping("/authorize/information")

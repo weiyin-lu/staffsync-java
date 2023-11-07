@@ -8,23 +8,15 @@ import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import online.weiyin.staffsync.entity.Permission;
 import online.weiyin.staffsync.entity.RolePermissionRelevance;
-import online.weiyin.staffsync.entity.UserRoleRelevance;
-import online.weiyin.staffsync.request.PermissionDTO;
 import online.weiyin.staffsync.request.RPrelevanceDTO;
-import online.weiyin.staffsync.request.URrelevanceDTO;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
-import online.weiyin.staffsync.service.PermissionService;
 import online.weiyin.staffsync.service.RolePermissionRelevanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import static online.weiyin.staffsync.entity.table.RolePermissionRelevanceTableDef.ROLE_PERMISSION_RELEVANCE;
-import static online.weiyin.staffsync.entity.table.UserRoleRelevanceTableDef.USER_ROLE_RELEVANCE;
 
 /**
  * @ClassName PermissionController
@@ -33,27 +25,13 @@ import static online.weiyin.staffsync.entity.table.UserRoleRelevanceTableDef.USE
  * @Time 2023/11/06 下午 10:54
  * @Author 卢子昂
  */
-@Tag(name = "人员管理模块-权限管理")
+@Tag(name = "待分类接口")
 @RestController
 @SaCheckLogin
 @RequestMapping("/grant/permission")
-public class PermissionController {
-    @Autowired
-    PermissionService permissionService;
+public class RolePermissionRelevancController {
     @Autowired
     RolePermissionRelevanceService rolePermissionRelevanceService;
-
-    @Operation(summary = "添加权限", description = "添加一个新的权限")
-    @ApiResponse(responseCode = "data", description = "无")
-    @SaCheckRole("admin")
-    @PostMapping("/addPermission")
-    public Result addPermission(@RequestBody PermissionDTO dto) {
-//        构造对象
-        Permission permission = new Permission(null, dto.getPermissionId(), dto.getPermissionId(), "0");
-//        执行
-        permissionService.save(permission);
-        return Result.success("添加成功");
-    }
 
     @Operation(summary = "为角色添加权限", description = "根据角色id和权限id为角色添加权限")
     @ApiResponse(responseCode = "data", description = "无")

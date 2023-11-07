@@ -25,11 +25,11 @@ import static online.weiyin.staffsync.entity.table.UserInfoTableDef.USER_INFO;
  * @Time 2023/11/06 下午 09:50
  * @Author 卢子昂
  */
-@Tag(name = "人员管理模块-基本信息管理")
+@Tag(name = "待分类接口")
 @RestController
 @SaCheckLogin
 @RequestMapping("/infomation")
-public class InfoController {
+public class UserInfoController {
     @Autowired
     UserInfoService userInfoService;
 

@@ -25,12 +25,12 @@ import static online.weiyin.staffsync.entity.table.UserTableDef.USER;
 
 /**
  * @ClassName SignController
- * @Description 登录注册接口
+ * @Description 认证模块-系统访问认证
  * @Version 1.0.0
  * @Time 2023/11/06 下午 01:54
  * @Author 卢子昂
  */
-@Tag(name = "鉴权模块-用户认证相关")
+@Tag(name = "认证模块-系统访问认证")
 @RestController
 @RequestMapping("/authorize/sign")
 public class SignController {
