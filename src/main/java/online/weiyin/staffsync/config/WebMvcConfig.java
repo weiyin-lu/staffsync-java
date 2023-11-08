@@ -1,6 +1,7 @@
 package online.weiyin.staffsync.config;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
+import online.weiyin.staffsync.interceptor.CORSInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,5 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 //        Sa-Token异常拦截（注解）
         registry.addInterceptor(new SaInterceptor()).addPathPatterns("/**");
+//        跨域拦截
+        registry.addInterceptor(new CORSInterceptor()).addPathPatterns("/**");
     }
 }
