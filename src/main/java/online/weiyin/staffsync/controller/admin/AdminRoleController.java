@@ -45,7 +45,7 @@ public class AdminRoleController {
     private RoleService roleService;
 
     @Operation(summary = "[admin]查询所有角色列表", description = "分页查询全部角色信息，一页10条")
-    @ApiResponse(responseCode = "data", description = "角色列表")
+    @ApiResponse(responseCode = "data", description = "分页信息和角色列表数据")
     @SaCheckPermission("admin.role.show")
     @GetMapping("/getRoleList/{page}")
     public Result getRoleListByPage(

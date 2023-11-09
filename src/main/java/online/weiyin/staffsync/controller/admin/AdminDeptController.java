@@ -41,7 +41,7 @@ public class AdminDeptController {
     private DepartmentService departmentService;
 
     @Operation(summary = "[admin]查询所有部门列表", description = "分页查询全部部门信息，一页10条")
-    @ApiResponse(responseCode = "data", description = "部门列表")
+    @ApiResponse(responseCode = "data", description = "分页信息和部门列表数据")
     @SaCheckPermission("admin.dept.show")
     @GetMapping("/getDeptList/{page}")
     public Result getDeptListByPage(

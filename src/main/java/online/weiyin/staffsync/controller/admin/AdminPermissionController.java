@@ -38,7 +38,7 @@ public class AdminPermissionController {
     private PermissionService permissionService;
 
     @Operation(summary = "[admin]查询所有权限列表",description = "分页查询全部权限信息，一页十条")
-    @ApiResponse(responseCode = "data", description = "权限列表")
+    @ApiResponse(responseCode = "data", description = "分页信息和权限列表数据")
     @SaCheckPermission("admin.permission.show")
     @GetMapping("/getPermissionList/{page}")
     public Result getPermissionListByPage(@PathVariable Integer page) {

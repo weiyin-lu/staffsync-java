@@ -20,8 +20,8 @@ public class SpringdocConfig {
     public OpenAPI myOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("staffsync人事管理系统")
-                        .description("staffsync人事管理系统 接口文档")
+                        .title("staffSync人事管理系统 接口文档")
+                        .description("staffSync人事管理系统 接口文档")
                         .version("v1.0.0")
                         .contact(new Contact()
                                 .name("weiyin lu")

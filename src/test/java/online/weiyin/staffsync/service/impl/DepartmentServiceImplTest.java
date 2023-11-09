@@ -24,7 +24,7 @@ class DepartmentServiceImplTest {
 
     @Test
     void getDeptList() {
-        List<DepartmentTreeDTO> zcb = departmentService.getDeptList("ZCB");
+        List<DepartmentTreeDTO> zcb = departmentService.getDeptList("XSZX");
         System.out.println(JSONUtil.toJsonPrettyStr(zcb));
     }
 }
