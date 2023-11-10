@@ -40,8 +40,8 @@ public class Codegen {
         globalConfig.setBasePackage("online.weiyin.staffsync");
 
         //设置表前缀和只生成哪些表
-//        globalConfig.setTablePrefix("ss_");
-        globalConfig.setGenerateTable("ss_department");
+        globalConfig.setTablePrefix("ss_");
+        globalConfig.setGenerateTable("ss_menu");
 
         //设置生成 entity 并启用 Lombok
         globalConfig.setEntityGenerateEnable(true);

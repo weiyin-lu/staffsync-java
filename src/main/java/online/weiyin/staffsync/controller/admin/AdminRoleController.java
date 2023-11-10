@@ -1,9 +1,7 @@
 package online.weiyin.staffsync.controller.admin;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.util.UpdateEntity;
@@ -11,15 +9,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import online.weiyin.staffsync.entity.Department;
 import online.weiyin.staffsync.entity.Role;
-import online.weiyin.staffsync.entity.UserRoleRelevance;
 import online.weiyin.staffsync.request.RoleDTO;
-import online.weiyin.staffsync.request.URrelevanceDTO;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.RoleService;
-import online.weiyin.staffsync.service.UserRoleRelevanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -89,7 +83,7 @@ public class AdminRoleController {
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckPermission("admin.role.remove")
     @PutMapping("/setRole")
-    public Result setRoleByRoleId(RoleDTO roleDTO) {
+    public Result setRoleByRoleId(@RequestBody RoleDTO roleDTO) {
 //        构造更新字段
         Role of = UpdateEntity.of(Role.class);
         of.setRoleName(roleDTO.getRoleName());

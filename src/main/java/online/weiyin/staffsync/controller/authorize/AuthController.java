@@ -8,13 +8,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import online.weiyin.staffsync.request.MenuDTO;
 import online.weiyin.staffsync.request.PermissionDTO;
 import online.weiyin.staffsync.request.RoleDTO;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
+import online.weiyin.staffsync.service.MenuService;
 import online.weiyin.staffsync.service.PermissionService;
 import online.weiyin.staffsync.service.RoleService;
-import online.weiyin.staffsync.service.UserRoleRelevanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.mybatisflex.core.query.QueryMethods.distinct;
+import static online.weiyin.staffsync.entity.table.MenuTableDef.MENU;
 import static online.weiyin.staffsync.entity.table.PermissionTableDef.PERMISSION;
+import static online.weiyin.staffsync.entity.table.RoleMenuRelevanceTableDef.ROLE_MENU_RELEVANCE;
 import static online.weiyin.staffsync.entity.table.RoleTableDef.ROLE;
+import static online.weiyin.staffsync.entity.table.UserRoleRelevanceTableDef.USER_ROLE_RELEVANCE;
+import static online.weiyin.staffsync.entity.table.UserTableDef.USER;
 
 /**
  * @ClassName AuthController
@@ -42,6 +48,8 @@ public class AuthController {
     PermissionService permissionService;
     @Autowired
     RoleService roleService;
+    @Autowired
+    MenuService menuService;
 
     @Operation(summary = "获取用户权限信息", description = "获取指定用户的权限列表（权限和权限描述）")
     @ApiResponse(responseCode = "data", description = "权限列表")
@@ -86,5 +94,29 @@ public class AuthController {
         } else {
             return Result.failed("未登录", Code.AUTHORIZE_ERROR);
         }
+    }
+
+    @Operation(summary = "获取菜单列表", description = "获取当前用户可用的菜单信息")
+    @ApiResponse(responseCode = "data", description = "菜单信息列表")
+    @GetMapping("/getMenu/{userId}}")
+    public Result getMenu(
+            @Parameter(description = "登录用户id")
+            @PathVariable String userId) {
+//        构造查询条件
+        QueryWrapper wrapper = QueryWrapper.create()
+                .select(distinct(MENU.MENU_ID, MENU.URL, MENU.COMPONENT_PATH, MENU.DESCRIPTION))
+                .from(MENU.as("m"))
+                .join(ROLE_MENU_RELEVANCE).as("rm")
+                .on(ROLE_MENU_RELEVANCE.MENU_ID.eq(MENU.MENU_ID))
+                .join(ROLE).as("r")
+                .on(ROLE.ROLE_ID.eq(ROLE_MENU_RELEVANCE.ROLE_ID))
+                .join(USER_ROLE_RELEVANCE).as("ur")
+                .on(USER_ROLE_RELEVANCE.ROLE_ID.eq(ROLE.ROLE_ID))
+                .join(USER)
+                .on(USER.USER_ID.eq(USER_ROLE_RELEVANCE.USER_ID))
+                .where(USER.USER_ID.eq(userId));
+//        执行
+        List<MenuDTO> dtoList = menuService.listAs(wrapper, MenuDTO.class);
+        return Result.success("查询成功",dtoList);
     }
 }

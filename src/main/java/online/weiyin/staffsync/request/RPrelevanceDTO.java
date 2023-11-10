@@ -10,7 +10,7 @@ import lombok.Data;
  * @Time 2023/11/07 下午 01:34
  * @Author 卢子昂
  */
-@Schema(name = "角色-权限关联dto", description = "用户和角色的映射关系")
+@Schema(name = "角色-权限关联dto", description = "角色和权限的映射关系")
 @Data
 public class RPrelevanceDTO {
     @Schema(description = "角色id")

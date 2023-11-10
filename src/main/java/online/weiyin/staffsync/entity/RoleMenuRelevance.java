@@ -11,17 +11,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 部门信息表 实体类。
+ * 角色-菜单关联关系 实体类。
  *
  * @author weiyin lu
- * @since 2023-11-06
+ * @since 2023-11-10
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(value = "ss_department")
-public class Department implements Serializable {
+@Table(value = "ss_role_menu_relevance")
+public class RoleMenuRelevance implements Serializable {
 
     /**
      * 数据主键
@@ -30,22 +30,17 @@ public class Department implements Serializable {
     private Integer rowKey;
 
     /**
-     * 部门编码
+     * 角色id
      */
-    private String deptCode;
+    private String roleId;
 
     /**
-     * 部门名称
+     * 菜单id
      */
-    private String deptName;
+    private String menuId;
 
     /**
-     * 上级部门
-     */
-    private String superior;
-
-    /**
-     * 删除标记
+     * 删除标识
      */
     @Column(isLogicDelete = true)
     private String isDelete;

@@ -1,26 +1,17 @@
 package online.weiyin.staffsync.controller.admin;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import cn.dev33.satoken.annotation.SaCheckOr;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.annotation.SaCheckRole;
 import com.mybatisflex.core.paginate.Page;
-import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.Permission;
-import online.weiyin.staffsync.entity.RolePermissionRelevance;
 import online.weiyin.staffsync.request.PermissionDTO;
-import online.weiyin.staffsync.request.RPrelevanceDTO;
-import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.PermissionService;
-import online.weiyin.staffsync.service.RolePermissionRelevanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import static online.weiyin.staffsync.entity.table.RolePermissionRelevanceTableDef.ROLE_PERMISSION_RELEVANCE;
 
 /**
  * @ClassName AdminPermissionController
