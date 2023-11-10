@@ -1,4 +1,4 @@
-package online.weiyin.staffsync.controller.employeemanage;
+package online.weiyin.staffsync.controller.admin;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
@@ -25,10 +25,10 @@ import static online.weiyin.staffsync.entity.table.RolePermissionRelevanceTableD
  * @Time 2023/11/06 下午 10:54
  * @Author 卢子昂
  */
-@Tag(name = "待分类接口")
+@Tag(name = "系统配置管理模块-角色权限关系配置")
 @RestController
 @SaCheckLogin
-@RequestMapping("/grant/permission")
+@RequestMapping("/admins/relevances")
 public class RolePermissionRelevancController {
     @Autowired
     RolePermissionRelevanceService rolePermissionRelevanceService;

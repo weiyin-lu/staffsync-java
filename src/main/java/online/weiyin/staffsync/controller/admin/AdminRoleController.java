@@ -30,15 +30,15 @@ import static online.weiyin.staffsync.entity.table.UserRoleRelevanceTableDef.USE
 
 /**
  * @ClassName AdminRoleController
- * @Description 系统级管理模块-角色系统管理
+ * @Description 系统配置管理模块-角色信息配置
  * @Version 1.0.0
  * @Time 2023/11/06 下午 10:17
  * @Author 卢子昂
  */
-@Tag(name = "系统级管理模块-角色系统管理")
+@Tag(name = "系统配置管理模块-角色信息配置")
 @RestController
 @SaCheckLogin
-@RequestMapping("/admin/role")
+@RequestMapping("/admins/roles")
 public class AdminRoleController {
 
     @Autowired
@@ -88,8 +88,8 @@ public class AdminRoleController {
     @Operation(summary = "[admin]修改角色", description = "根据角色唯一id修改一个角色的名称")
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckPermission("admin.role.remove")
-    @PutMapping("/updateRole")
-    public Result updateRoleByRoleId(RoleDTO roleDTO) {
+    @PutMapping("/setRole")
+    public Result setRoleByRoleId(RoleDTO roleDTO) {
 //        构造更新字段
         Role of = UpdateEntity.of(Role.class);
         of.setRoleName(roleDTO.getRoleName());

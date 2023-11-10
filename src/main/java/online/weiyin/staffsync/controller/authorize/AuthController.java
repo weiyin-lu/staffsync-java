@@ -36,7 +36,7 @@ import static online.weiyin.staffsync.entity.table.RoleTableDef.ROLE;
 @Tag(name = "认证模块-认证信息获取")
 @RestController
 @SaCheckLogin
-@RequestMapping("/authorize/information")
+@RequestMapping("/authorizes/informations")
 public class AuthController {
     @Autowired
     PermissionService permissionService;

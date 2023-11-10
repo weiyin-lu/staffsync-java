@@ -24,15 +24,15 @@ import static online.weiyin.staffsync.entity.table.RolePermissionRelevanceTableD
 
 /**
  * @ClassName AdminPermissionController
- * @Description 系统级功能模块-权限管理
+ * @Description 系统配置管理模块-权限信息配置
  * @Version 1.0.0
  * @Time 2023/11/06 下午 10:54
  * @Author 卢子昂
  */
-@Tag(name = "系统级管理模块-权限系统管理")
+@Tag(name = "系统配置管理模块-权限信息配置")
 @RestController
 @SaCheckLogin
-@RequestMapping("/admin/permission")
+@RequestMapping("/admins/permissions")
 public class AdminPermissionController {
     @Autowired
     private PermissionService permissionService;

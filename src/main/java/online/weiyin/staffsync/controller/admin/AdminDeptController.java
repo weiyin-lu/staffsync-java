@@ -27,15 +27,15 @@ import static online.weiyin.staffsync.entity.table.DepartmentTableDef.DEPARTMENT
 
 /**
  * @ClassName AdminDeptController
- * @Description 系统级管理模块-部门系统管理
+ * @Description 系统配置管理模块-部门信息配置
  * @Version 1.0.0
  * @Time 2023/11/07 下午 01:53
  * @Author 卢子昂
  */
-@Tag(name = "系统级功能模块-部门系统管理")
+@Tag(name = "系统配置管理模块-部门信息配置")
 @RestController
 @SaCheckLogin
-@RequestMapping("/admin/department")
+@RequestMapping("/admins/departments")
 public class AdminDeptController {
     @Autowired
     private DepartmentService departmentService;

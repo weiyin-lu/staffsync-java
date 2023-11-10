@@ -17,9 +17,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        Sa-Token异常拦截（注解）
-        registry.addInterceptor(new SaInterceptor()).addPathPatterns("/**");
 //        跨域拦截
         registry.addInterceptor(new CORSInterceptor()).addPathPatterns("/**");
+//        Sa-Token异常拦截（注解）
+        registry.addInterceptor(new SaInterceptor()).addPathPatterns("/**");
     }
 }
