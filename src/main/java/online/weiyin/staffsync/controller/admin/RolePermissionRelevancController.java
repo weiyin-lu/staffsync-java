@@ -22,6 +22,7 @@ import java.util.List;
 import static com.mybatisflex.core.query.QueryMethods.distinct;
 import static online.weiyin.staffsync.entity.table.PermissionTableDef.PERMISSION;
 import static online.weiyin.staffsync.entity.table.RolePermissionRelevanceTableDef.ROLE_PERMISSION_RELEVANCE;
+import static online.weiyin.staffsync.entity.table.RoleTableDef.ROLE;
 
 /**
  * @ClassName PermissionController
@@ -50,10 +51,12 @@ public class RolePermissionRelevancController {
 //        构造查询条件
         QueryWrapper wrapper = QueryWrapper.create()
                 .select(distinct(PERMISSION.PERMISSION_ID,PERMISSION.PERMISSION_NAME))
-                .from(PERMISSION).as("m")
+                .from(PERMISSION).as("p")
                 .join(ROLE_PERMISSION_RELEVANCE).as("rp")
                 .on(ROLE_PERMISSION_RELEVANCE.PERMISSION_ID.eq(PERMISSION.PERMISSION_ID))
-                .where(ROLE_PERMISSION_RELEVANCE.ROLE_ID.eq(roleId));
+                .join(ROLE).as("r")
+                .on(ROLE.ROLE_ID.eq(ROLE_PERMISSION_RELEVANCE.ROLE_ID))
+                .where(ROLE.ROLE_ID.eq(roleId));
 //        执行
         List<PermissionDTO> list = permissionService.listAs(wrapper, PermissionDTO.class);
         return Result.success("查询成功", list);

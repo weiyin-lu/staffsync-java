@@ -23,6 +23,7 @@ import java.util.List;
 import static com.mybatisflex.core.query.QueryMethods.distinct;
 import static online.weiyin.staffsync.entity.table.MenuTableDef.MENU;
 import static online.weiyin.staffsync.entity.table.RoleMenuRelevanceTableDef.ROLE_MENU_RELEVANCE;
+import static online.weiyin.staffsync.entity.table.RoleTableDef.ROLE;
 
 /**
  * @ClassName RoleMenuRelevanceController
@@ -54,7 +55,9 @@ public class RoleMenuRelevanceController {
                 .from(MENU).as("m")
                 .join(ROLE_MENU_RELEVANCE).as("rm")
                 .on(ROLE_MENU_RELEVANCE.MENU_ID.eq(MENU.MENU_ID))
-                .where(ROLE_MENU_RELEVANCE.ROLE_ID.eq(roleId));
+                .join(ROLE).as("r")
+                .on(ROLE.ROLE_ID.eq(ROLE_MENU_RELEVANCE.ROLE_ID))
+                .where(ROLE.ROLE_ID.eq(roleId));
 //        执行
         List<MenuDTO> list = menuService.listAs(wrapper, MenuDTO.class);
         return Result.success("查询成功", list);

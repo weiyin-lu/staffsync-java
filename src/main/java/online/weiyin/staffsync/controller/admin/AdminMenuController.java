@@ -50,8 +50,8 @@ public class AdminMenuController {
     @Operation(summary = "[admin]配置新菜单", description = "配置一个新菜单的信息")
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckPermission("admin.menu.add")
-    @PostMapping("/addRole")
-    public Result addRole(@RequestBody MenuDTO dto) {
+    @PostMapping("/addMenu")
+    public Result addMenu(@RequestBody MenuDTO dto) {
 //        构造对象
         Menu menu = new Menu(null, dto.getMenuId(), dto.getUrl(), dto.getComponentPath(),
                 dto.getDescription(), "0");
@@ -81,7 +81,7 @@ public class AdminMenuController {
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckPermission("admin.menu.remove")
     @PutMapping("/setMenu")
-    public Result setRoleByRoleId(@RequestBody MenuDTO menuDTO) {
+    public Result setMenuByMenuId(@RequestBody MenuDTO menuDTO) {
 //        构造更新字段
         Menu of = UpdateEntity.of(Menu.class);
         of.setMenuId(menuDTO.getMenuId());

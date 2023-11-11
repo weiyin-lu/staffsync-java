@@ -40,7 +40,7 @@ public class ExceptionInterceptor {
     @ExceptionHandler(RuntimeException.class)
     public Result authorizeHandler(RuntimeException e) {
         if(e instanceof DuplicateKeyException) {
-            return Result.failed("账号已存在", Code.INSERT_ERROR);
+            return Result.failed("信息/账号已经存在", Code.INSERT_ERROR);
         } else {
             e.printStackTrace();
             return Result.failed(e.getMessage(), Code.SERVER_ERROR);
