@@ -4,17 +4,24 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.RoleMenuRelevance;
+import online.weiyin.staffsync.request.MenuDTO;
 import online.weiyin.staffsync.request.RMrelevanceDTO;
 import online.weiyin.staffsync.request.RPrelevanceDTO;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
+import online.weiyin.staffsync.service.MenuService;
 import online.weiyin.staffsync.service.RoleMenuRelevanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+import static com.mybatisflex.core.query.QueryMethods.distinct;
+import static online.weiyin.staffsync.entity.table.MenuTableDef.MENU;
 import static online.weiyin.staffsync.entity.table.RoleMenuRelevanceTableDef.ROLE_MENU_RELEVANCE;
 
 /**
@@ -31,6 +38,27 @@ import static online.weiyin.staffsync.entity.table.RoleMenuRelevanceTableDef.ROL
 public class RoleMenuRelevanceController {
     @Autowired
     RoleMenuRelevanceService roleMenuRelevanceService;
+    @Autowired
+    MenuService menuService;
+
+    @Operation(summary = "[admin]查看角色拥有的菜单列表", description = "根据角色id查询角色当前拥有的菜单")
+    @ApiResponse(responseCode = "data", description = "角色列表")
+    @SaCheckPermission("admin.relevance.menu.show")
+    @GetMapping("/getMenuList/{roleId}")
+    public Result getMenuListByRoleId(
+            @Parameter(description = "角色id")
+            @PathVariable String roleId) {
+//        构造查询条件
+        QueryWrapper wrapper = QueryWrapper.create()
+                .select(distinct(MENU.MENU_ID, MENU.URL, MENU.COMPONENT_PATH, MENU.DESCRIPTION))
+                .from(MENU).as("m")
+                .join(ROLE_MENU_RELEVANCE).as("rm")
+                .on(ROLE_MENU_RELEVANCE.MENU_ID.eq(MENU.MENU_ID))
+                .where(ROLE_MENU_RELEVANCE.ROLE_ID.eq(roleId));
+//        执行
+        List<MenuDTO> list = menuService.listAs(wrapper, MenuDTO.class);
+        return Result.success("查询成功", list);
+    }
 
     @Operation(summary = "[admin]为角色添加菜单", description = "根据角色id和菜单id为角色添加菜单")
     @ApiResponse(responseCode = "data", description = "无")

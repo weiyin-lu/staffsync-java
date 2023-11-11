@@ -4,16 +4,23 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.mybatisflex.core.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.RolePermissionRelevance;
+import online.weiyin.staffsync.request.PermissionDTO;
 import online.weiyin.staffsync.request.RPrelevanceDTO;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
+import online.weiyin.staffsync.service.PermissionService;
 import online.weiyin.staffsync.service.RolePermissionRelevanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+import static com.mybatisflex.core.query.QueryMethods.distinct;
+import static online.weiyin.staffsync.entity.table.PermissionTableDef.PERMISSION;
 import static online.weiyin.staffsync.entity.table.RolePermissionRelevanceTableDef.ROLE_PERMISSION_RELEVANCE;
 
 /**
@@ -30,7 +37,27 @@ import static online.weiyin.staffsync.entity.table.RolePermissionRelevanceTableD
 public class RolePermissionRelevancController {
     @Autowired
     RolePermissionRelevanceService rolePermissionRelevanceService;
+    @Autowired
+    PermissionService permissionService;
 
+    @Operation(summary = "[admin]查看角色拥有的权限列表", description = "根据角色id查询角色当前拥有的权限")
+    @ApiResponse(responseCode = "data", description = "角色列表")
+    @SaCheckPermission("admin.relevance.menu.show")
+    @GetMapping("/getPermissionList/{roleId}")
+    public Result getPermissionListByRoleId(
+            @Parameter(description = "角色id")
+            @PathVariable String roleId) {
+//        构造查询条件
+        QueryWrapper wrapper = QueryWrapper.create()
+                .select(distinct(PERMISSION.PERMISSION_ID,PERMISSION.PERMISSION_NAME))
+                .from(PERMISSION).as("m")
+                .join(ROLE_PERMISSION_RELEVANCE).as("rp")
+                .on(ROLE_PERMISSION_RELEVANCE.PERMISSION_ID.eq(PERMISSION.PERMISSION_ID))
+                .where(ROLE_PERMISSION_RELEVANCE.ROLE_ID.eq(roleId));
+//        执行
+        List<PermissionDTO> list = permissionService.listAs(wrapper, PermissionDTO.class);
+        return Result.success("查询成功", list);
+    }
     @Operation(summary = "[admin]为角色添加权限", description = "根据角色id和权限id为角色添加权限")
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckPermission("admin.relevance.permission.add")

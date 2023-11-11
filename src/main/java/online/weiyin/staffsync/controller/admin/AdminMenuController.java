@@ -38,8 +38,8 @@ public class AdminMenuController {
     @Operation(summary = "[admin]查询所有菜单列表", description = "分页查询全部菜单信息，一页10条")
     @ApiResponse(responseCode = "data", description = "分页信息和菜单列表数据")
     @SaCheckPermission("admin.menu.show")
-    @GetMapping("/getRoleList/{page}")
-    public Result getRoleListByPage(
+    @GetMapping("/getMenuList/{page}")
+    public Result getMenuListByPage(
             @Parameter(description = "页码")
             @PathVariable Integer page) {
         Page<Menu> pageInstance = new Page<>(page, 10);
@@ -64,7 +64,7 @@ public class AdminMenuController {
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckPermission("admin.menu.remove")
     @DeleteMapping("/removeMenu/{menuId}")
-    public Result removeMenuById(
+    public Result removeMenuByMenuId(
             @Parameter(description = "菜单id")
             @PathVariable String menuId) {
         QueryWrapper wrapper = QueryWrapper.create()

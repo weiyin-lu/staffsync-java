@@ -98,8 +98,8 @@ public class AuthController {
 
     @Operation(summary = "获取菜单列表", description = "获取当前用户可用的菜单信息")
     @ApiResponse(responseCode = "data", description = "菜单信息列表")
-    @GetMapping("/getMenu/{userId}}")
-    public Result getMenu(
+    @GetMapping("/getMenuList/{userId}")
+    public Result getMenuListByUserId(
             @Parameter(description = "登录用户id")
             @PathVariable String userId) {
 //        构造查询条件

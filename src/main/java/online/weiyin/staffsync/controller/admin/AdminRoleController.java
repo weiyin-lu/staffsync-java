@@ -17,10 +17,7 @@ import online.weiyin.staffsync.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import static online.weiyin.staffsync.entity.table.RoleTableDef.ROLE;
-import static online.weiyin.staffsync.entity.table.UserRoleRelevanceTableDef.USER_ROLE_RELEVANCE;
 
 /**
  * @ClassName AdminRoleController
@@ -89,7 +86,7 @@ public class AdminRoleController {
         of.setRoleName(roleDTO.getRoleName());
 //        构造查询条件
         QueryWrapper wrapper = QueryWrapper.create().where(ROLE.ROLE_ID.eq(roleDTO.getRoleId()));
-
+//        执行
         boolean update = roleService.update(of, wrapper);
         if (update) {
             return Result.success("修改成功");
