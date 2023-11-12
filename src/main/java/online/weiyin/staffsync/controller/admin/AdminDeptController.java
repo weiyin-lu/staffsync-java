@@ -17,6 +17,9 @@ import online.weiyin.staffsync.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
+import static com.mybatisflex.core.query.QueryMethods.column;
 import static com.mybatisflex.core.query.QueryMethods.count;
 import static online.weiyin.staffsync.entity.table.DepartmentTableDef.DEPARTMENT;
 
@@ -42,8 +45,16 @@ public class AdminDeptController {
     public Result getDeptListByPage(
             @Parameter(description = "页码")
             @PathVariable Integer page) {
-        Page<Department> pageInstance = new Page<>(page,10);
-        Page<Department> departmentPage = departmentService.page(pageInstance);
+//        构造分页条件
+        Page<Map> pageInstance = new Page<>(page, 10);
+//        构造查询条件
+        QueryWrapper wrapper = QueryWrapper.create()
+                .select(DEPARTMENT.DEPT_CODE.as("deptCode"), DEPARTMENT.DEPT_NAME.as("deptName"),
+                        column("d2.dept_name").as("superiorName"))
+                .from(DEPARTMENT.as("d1"))
+                .leftJoin(DEPARTMENT).as("d2")
+                .on(column("d1.superior").eq(column("d2.dept_code")));
+        Page<Map> departmentPage = departmentService.pageAs(pageInstance, wrapper, Map.class);
         return Result.success("查询成功", departmentPage);
     }
 
