@@ -10,13 +10,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.RolePermissionRelevance;
 import online.weiyin.staffsync.request.PermissionDTO;
 import online.weiyin.staffsync.request.RPrelevanceDTO;
+import online.weiyin.staffsync.request.RelevanceBatchDTO;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.PermissionService;
 import online.weiyin.staffsync.service.RolePermissionRelevanceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.mybatisflex.core.query.QueryMethods.distinct;
@@ -43,14 +46,14 @@ public class RolePermissionRelevancController {
 
     @Operation(summary = "[admin]查看角色拥有的权限列表", description = "根据角色id查询角色当前拥有的权限")
     @ApiResponse(responseCode = "data", description = "角色列表")
-    @SaCheckPermission("admin.relevance.menu.show")
+    @SaCheckPermission("admin.relevance.permission.show")
     @GetMapping("/getPermissionList/{roleId}")
     public Result getPermissionListByRoleId(
             @Parameter(description = "角色id")
             @PathVariable String roleId) {
 //        构造查询条件
         QueryWrapper wrapper = QueryWrapper.create()
-                .select(distinct(PERMISSION.PERMISSION_ID,PERMISSION.PERMISSION_NAME))
+                .select(distinct(PERMISSION.PERMISSION_ID, PERMISSION.PERMISSION_NAME))
                 .from(PERMISSION).as("p")
                 .join(ROLE_PERMISSION_RELEVANCE).as("rp")
                 .on(ROLE_PERMISSION_RELEVANCE.PERMISSION_ID.eq(PERMISSION.PERMISSION_ID))
@@ -61,13 +64,33 @@ public class RolePermissionRelevancController {
         List<PermissionDTO> list = permissionService.listAs(wrapper, PermissionDTO.class);
         return Result.success("查询成功", list);
     }
-    @Operation(summary = "[admin]为角色添加权限", description = "根据角色id和权限id为角色添加权限")
+
+    @Operation(summary = "[admin]查看所有权限列表", description = "查看所有有效的权限信息")
+    @ApiResponse(responseCode = "data", description = "权限列表")
+    @SaCheckPermission("admin.relevance.permission.show")
+    @GetMapping("/getPermissionList")
+    public Result getPermissionListAll() {
+//        构造查询条件
+        QueryWrapper wrapper = QueryWrapper.create()
+                .select(distinct(PERMISSION.PERMISSION_ID, PERMISSION.PERMISSION_NAME));
+//        执行
+        List<PermissionDTO> list = permissionService.listAs(wrapper, PermissionDTO.class);
+        return Result.success("查询成功", list);
+    }
+
+    @Operation(summary = "[admin]为角色添加权限（批量）", description = "根据角色id和权限id为角色批量添加权限")
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckPermission("admin.relevance.permission.add")
+    @Transactional
     @PostMapping("/addPermissionForRole")
-    public Result addPermissionForRole(@RequestBody RPrelevanceDTO dto) {
-        RolePermissionRelevance relevance = new RolePermissionRelevance(null, dto.getRoleId(), dto.getPermissionId(), "0");
-        rolePermissionRelevanceService.save(relevance);
+    public Result addPermissionForRole(@RequestBody RelevanceBatchDTO dto) {
+//        根据dto构造批量插入所用对象
+        List<RolePermissionRelevance> batch = new ArrayList<>();
+        for(String permissionId : dto.getList()) {
+            batch.add(new RolePermissionRelevance(null,dto.getRoleId(),permissionId,"0"));
+        }
+//        执行
+        rolePermissionRelevanceService.saveBatch(batch);
         return Result.success("添加成功");
     }
 

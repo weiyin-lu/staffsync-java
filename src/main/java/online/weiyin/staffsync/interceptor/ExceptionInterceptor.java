@@ -34,12 +34,13 @@ public class ExceptionInterceptor {
 
     /**
      * 数据库操作异常处理
+     *
      * @param e
      * @return
      */
     @ExceptionHandler(RuntimeException.class)
     public Result authorizeHandler(RuntimeException e) {
-        if(e instanceof DuplicateKeyException) {
+        if (e instanceof DuplicateKeyException) {
             return Result.failed("信息/账号已经存在", Code.INSERT_ERROR);
         } else {
             e.printStackTrace();
@@ -49,6 +50,7 @@ public class ExceptionInterceptor {
 
     /**
      * 通用异常处理
+     *
      * @param e
      * @return
      */
