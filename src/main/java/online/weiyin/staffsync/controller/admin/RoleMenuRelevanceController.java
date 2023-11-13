@@ -9,8 +9,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.RoleMenuRelevance;
 import online.weiyin.staffsync.request.MenuDTO;
-import online.weiyin.staffsync.request.RMrelevanceDTO;
 import online.weiyin.staffsync.request.RPrelevanceDTO;
+import online.weiyin.staffsync.request.RelevanceBatchDTO;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.MenuService;
@@ -18,6 +18,7 @@ import online.weiyin.staffsync.service.RoleMenuRelevanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.mybatisflex.core.query.QueryMethods.distinct;
@@ -63,13 +64,29 @@ public class RoleMenuRelevanceController {
         return Result.success("查询成功", list);
     }
 
-    @Operation(summary = "[admin]为角色添加菜单", description = "根据角色id和菜单id为角色添加菜单")
+    @Operation(summary = "[admin]查看所有菜单列表", description = "查看所有有效的菜单信息")
+    @ApiResponse(responseCode = "data", description = "菜单列表")
+    @SaCheckPermission("admin.relevance.menu.show")
+    @GetMapping("/getMenuList")
+    public Result getMenuListAll() {
+        QueryWrapper wrapper = QueryWrapper.create()
+                .select(MENU.MENU_ID, MENU.URL, MENU.COMPONENT_PATH, MENU.DESCRIPTION);
+        List<MenuDTO> list = menuService.listAs(wrapper, MenuDTO.class);
+        return Result.success("查询成功", list);
+    }
+
+    @Operation(summary = "[admin]为角色添加菜单（批量）", description = "根据角色id和菜单id为角色批量添加菜单")
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckPermission("admin.relevance.menu.add")
     @PostMapping("/addMenuForRole")
-    public Result addMenuForRole(@RequestBody RMrelevanceDTO dto) {
-        RoleMenuRelevance relevance = new RoleMenuRelevance(null, dto.getRoleId(), dto.getMenuId(), "0");
-        roleMenuRelevanceService.save(relevance);
+    public Result addMenuForRole(@RequestBody RelevanceBatchDTO dto) {
+        //        根据dto构造批量插入所用对象
+        List<RoleMenuRelevance> batch = new ArrayList<>();
+        for (String permissionId : dto.getList()) {
+            batch.add(new RoleMenuRelevance(null, dto.getRoleId(), permissionId, "0"));
+        }
+//        执行
+        roleMenuRelevanceService.saveBatch(batch);
         return Result.success("添加成功");
     }
 
