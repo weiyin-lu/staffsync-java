@@ -3,10 +3,13 @@ package online.weiyin.staffsync.controller.admin;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.mybatisflex.core.paginate.Page;
+import com.mybatisflex.core.query.If;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.util.UpdateEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.Role;
@@ -16,6 +19,10 @@ import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static online.weiyin.staffsync.entity.table.RoleTableDef.ROLE;
 
@@ -42,8 +49,10 @@ public class AdminRoleController {
     public Result getRoleListByPage(
             @Parameter(description = "页码")
             @PathVariable Integer page) {
-        Page<Role> pageInstance = new Page<>(page,10);
-        Page<Role> rolePage = roleService.page(pageInstance);
+        Page<RoleDTO> pageInstance = new Page<>(page, 10);
+        QueryWrapper wrapper = QueryWrapper.create()
+                .select(ROLE.ROLE_ID, ROLE.ROLE_NAME);
+        Page<RoleDTO> rolePage = roleService.pageAs(pageInstance,wrapper,RoleDTO.class);
         return Result.success("查询成功", rolePage);
     }
 
@@ -57,6 +66,24 @@ public class AdminRoleController {
 //        执行
         roleService.save(role);
         return Result.success("添加成功");
+    }
+
+    @Operation(summary = "[admin]根据条件模糊查找角色", description = "分页查询条件匹配的，一页10条")
+    @ApiResponse(responseCode = "data", description = "符合查找条件的数据")
+    @Parameters({
+            @Parameter(name = "roleId", description = "角色id"),
+            @Parameter(name = "roleName", description = "角色含义"),
+    })
+    @SaCheckPermission("admin.role.show")
+    @PostMapping("/getRoleList")
+    public Result getRoleListByCondition(@RequestBody HashMap<String, String> condition) {
+        Page<RoleDTO> page = new Page(1, 10);
+        QueryWrapper wrapper = QueryWrapper.create()
+                .from(ROLE)
+                .where(ROLE.ROLE_ID.like(condition.get("roleId"), If::notNull))
+                .and(ROLE.ROLE_NAME.like(condition.get("roleName"), If::notNull));
+        Page<RoleDTO> list = roleService.pageAs(page, wrapper, RoleDTO.class);
+        return Result.success("查询成功", list);
     }
 
     @Operation(summary = "[admin]删除角色", description = "根据角色唯一id删除一个角色")

@@ -1,4 +1,4 @@
-package online.weiyin.staffsync.controller.employeemanage;
+package online.weiyin.staffsync.controller.HumanManage;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -11,11 +11,13 @@ import online.weiyin.staffsync.request.DepartmentTreeDTO;
 import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.mybatisflex.core.query.QueryMethods.count;
 import static online.weiyin.staffsync.entity.table.DepartmentTableDef.DEPARTMENT;
 
 /**
@@ -25,7 +27,7 @@ import static online.weiyin.staffsync.entity.table.DepartmentTableDef.DEPARTMENT
  * @Time 2023/11/07 下午 01:53
  * @Author 卢子昂
  */
-@Tag(name = "待分类接口")
+@Tag(name = "人员管理模块-部门管理")
 @RestController
 @SaCheckLogin
 @RequestMapping("/department")
@@ -41,19 +43,5 @@ public class DepartmentController {
             @PathVariable String deptCode) {
         List<DepartmentTreeDTO> deptList = departmentService.getDeptList(deptCode);
         return Result.success("查询成功", deptList);
-    }
-
-    @Operation(summary = "查找部门名称", description = "根据部门id返回一条部门信息")
-    @ApiResponse(responseCode = "data", description = "部门信息")
-    @GetMapping("/getDept/{deptCode}")
-    public Result getDeptByCode(
-            @Parameter(description = "部门编码")
-            @PathVariable String deptCode) {
-//        构造查询条件
-        QueryWrapper wrapper = QueryWrapper.create()
-                .where(DEPARTMENT.DEPT_CODE.eq(deptCode));
-//        执行
-        Department dept = departmentService.getOne(wrapper);
-        return Result.success("查询成功", dept);
     }
 }

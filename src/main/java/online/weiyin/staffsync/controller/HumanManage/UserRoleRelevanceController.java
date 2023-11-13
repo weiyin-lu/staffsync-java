@@ -1,4 +1,4 @@
-package online.weiyin.staffsync.controller.employeemanage;
+package online.weiyin.staffsync.controller.HumanManage;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckOr;
