@@ -68,7 +68,7 @@ public class AdminRoleController {
         return Result.success("添加成功");
     }
 
-    @Operation(summary = "[admin]根据条件模糊查找角色", description = "分页查询条件匹配的，一页10条")
+    @Operation(summary = "[admin]根据条件模糊查找角色", description = "分页查询条件匹配的角色，一页10条")
     @ApiResponse(responseCode = "data", description = "符合查找条件的数据")
     @Parameters({
             @Parameter(name = "roleId", description = "角色id"),

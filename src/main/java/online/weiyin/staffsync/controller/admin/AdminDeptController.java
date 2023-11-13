@@ -3,25 +3,30 @@ package online.weiyin.staffsync.controller.admin;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.mybatisflex.core.paginate.Page;
+import com.mybatisflex.core.query.If;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.util.UpdateEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.Department;
 import online.weiyin.staffsync.request.DepartmentDTO;
+import online.weiyin.staffsync.request.RoleDTO;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.mybatisflex.core.query.QueryMethods.column;
 import static com.mybatisflex.core.query.QueryMethods.count;
 import static online.weiyin.staffsync.entity.table.DepartmentTableDef.DEPARTMENT;
+import static online.weiyin.staffsync.entity.table.RoleTableDef.ROLE;
 
 /**
  * @ClassName AdminDeptController
@@ -56,6 +61,29 @@ public class AdminDeptController {
                 .on(column("d1.superior").eq(column("d2.dept_code")));
         Page<Map> departmentPage = departmentService.pageAs(pageInstance, wrapper, Map.class);
         return Result.success("查询成功", departmentPage);
+    }
+
+    @Operation(summary = "[admin]根据条件模糊查找部门", description = "分页查询条件匹配的部门，一页10条")
+    @ApiResponse(responseCode = "data", description = "符合查找条件的数据")
+    @Parameters({
+            @Parameter(name = "deptCode", description = "部门编码"),
+            @Parameter(name = "deptName", description = "部门名称"),
+            @Parameter(name = "deptName", description = "页码，默认为1"),
+    })
+    @SaCheckPermission("admin.dept.show")
+    @PostMapping("/getDeptList")
+    public Result getDeptListByCondition(@RequestBody HashMap<String, String> condition) {
+        Page<Map> pageInstance = new Page<>(Integer.parseInt(condition.get("page")), 10);
+        QueryWrapper wrapper = QueryWrapper.create()
+                .select(DEPARTMENT.DEPT_CODE.as("deptCode"), DEPARTMENT.DEPT_NAME.as("deptName"),
+                        column("d2.dept_name").as("superiorName"))
+                .from(DEPARTMENT.as("d1"))
+                .leftJoin(DEPARTMENT).as("d2")
+                .on(column("d1.superior").eq(column("d2.dept_code")))
+                .where(DEPARTMENT.DEPT_CODE.like(condition.get("deptCode"), If::notNull))
+                .and(DEPARTMENT.DEPT_NAME.like(condition.get("deptName"), If::notNull));
+        Page<Map> list = departmentService.pageAs(pageInstance, wrapper, Map.class);
+        return Result.success("查询成功", list);
     }
 
     @Operation(summary = "[admin]添加部门", description = "添加一个新部门")
