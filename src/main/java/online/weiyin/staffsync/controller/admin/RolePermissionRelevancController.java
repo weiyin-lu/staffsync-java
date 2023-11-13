@@ -82,7 +82,7 @@ public class RolePermissionRelevancController {
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckPermission("admin.relevance.permission.add")
     @Transactional
-    @PostMapping("/addPermissionForRole")
+    @PostMapping("/addPermission")
     public Result addPermissionForRole(@RequestBody RelevanceBatchDTO dto) {
 //        根据dto构造批量插入所用对象
         List<RolePermissionRelevance> batch = new ArrayList<>();
@@ -97,7 +97,7 @@ public class RolePermissionRelevancController {
     @Operation(summary = "[admin]为角色移除权限", description = "根据角色id和权限id为其移除权限")
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckPermission("admin.relevance.permission.remove")
-    @PutMapping("/removePermissionForRole")
+    @PutMapping("/removePermission")
     public Result removePermissionForRole(@RequestBody RPrelevanceDTO dto) {
         QueryWrapper wrapper = QueryWrapper.create()
                 .where(ROLE_PERMISSION_RELEVANCE.ROLE_ID.eq(dto.getRoleId()))

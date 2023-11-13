@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.RoleMenuRelevance;
 import online.weiyin.staffsync.request.MenuDTO;
+import online.weiyin.staffsync.request.RMrelevanceDTO;
 import online.weiyin.staffsync.request.RPrelevanceDTO;
 import online.weiyin.staffsync.request.RelevanceBatchDTO;
 import online.weiyin.staffsync.response.Code;
@@ -78,7 +79,7 @@ public class RoleMenuRelevanceController {
     @Operation(summary = "[admin]为角色添加菜单（批量）", description = "根据角色id和菜单id为角色批量添加菜单")
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckPermission("admin.relevance.menu.add")
-    @PostMapping("/addMenuForRole")
+    @PostMapping("/addMenu")
     public Result addMenuForRole(@RequestBody RelevanceBatchDTO dto) {
         //        根据dto构造批量插入所用对象
         List<RoleMenuRelevance> batch = new ArrayList<>();
@@ -93,11 +94,11 @@ public class RoleMenuRelevanceController {
     @Operation(summary = "[admin]为角色移除菜单", description = "根据角色id和菜单id为其移除权限")
     @ApiResponse(responseCode = "data", description = "无")
     @SaCheckPermission("admin.relevance.menu.remove")
-    @PutMapping("/removeMenuForRole")
-    public Result removePermissionForRole(@RequestBody RPrelevanceDTO dto) {
+    @PutMapping("/removeMenu")
+    public Result removePermissionForRole(@RequestBody RMrelevanceDTO dto) {
         QueryWrapper wrapper = QueryWrapper.create()
                 .where(ROLE_MENU_RELEVANCE.ROLE_ID.eq(dto.getRoleId()))
-                .and(ROLE_MENU_RELEVANCE.MENU_ID.eq(dto.getPermissionId()));
+                .and(ROLE_MENU_RELEVANCE.MENU_ID.eq(dto.getMenuId()));
         boolean remove = roleMenuRelevanceService.remove(wrapper);
         if (remove) {
             return Result.success("移除成功");
