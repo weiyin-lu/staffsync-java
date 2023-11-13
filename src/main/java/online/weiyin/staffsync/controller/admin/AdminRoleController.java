@@ -73,11 +73,12 @@ public class AdminRoleController {
     @Parameters({
             @Parameter(name = "roleId", description = "角色id"),
             @Parameter(name = "roleName", description = "角色含义"),
+            @Parameter(name = "page", description = "页码，默认为1"),
     })
     @SaCheckPermission("admin.role.show")
     @PostMapping("/getRoleList")
     public Result getRoleListByCondition(@RequestBody HashMap<String, String> condition) {
-        Page<RoleDTO> page = new Page(1, 10);
+        Page<RoleDTO> page = new Page(Integer.parseInt(condition.get("page")), 10);
         QueryWrapper wrapper = QueryWrapper.create()
                 .from(ROLE)
                 .where(ROLE.ROLE_ID.like(condition.get("roleId"), If::notNull))
