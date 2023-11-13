@@ -3,10 +3,12 @@ package online.weiyin.staffsync.controller.admin;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.mybatisflex.core.paginate.Page;
+import com.mybatisflex.core.query.If;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.util.UpdateEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.Menu;
@@ -17,6 +19,11 @@ import online.weiyin.staffsync.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.mybatisflex.core.query.QueryMethods.column;
+import static online.weiyin.staffsync.entity.table.DepartmentTableDef.DEPARTMENT;
 import static online.weiyin.staffsync.entity.table.MenuTableDef.MENU;
 
 /**
@@ -42,9 +49,28 @@ public class AdminMenuController {
     public Result getMenuListByPage(
             @Parameter(description = "页码")
             @PathVariable Integer page) {
-        Page<Menu> pageInstance = new Page<>(page, 10);
-        Page<Menu> menuPage = menuService.page(pageInstance);
+        QueryWrapper wrapper = QueryWrapper.create()
+                .select(MENU.MENU_ID, MENU.URL, MENU.COMPONENT_PATH, MENU.DESCRIPTION);
+        Page<MenuDTO> pageInstance = new Page<>(page, 10);
+        Page<MenuDTO> menuPage = menuService.pageAs(pageInstance, wrapper, MenuDTO.class);
         return Result.success("查询成功", menuPage);
+    }
+
+    @Operation(summary = "[admin]根据条件模糊查找菜单", description = "分页查询条件匹配的菜单，一页10条")
+    @ApiResponse(responseCode = "data", description = "符合查找条件的数据")
+    @Parameters({
+            @Parameter(name = "menuId", description = "菜单id"),
+            @Parameter(name = "page", description = "页码，默认为1"),
+    })
+    @SaCheckPermission("admin.menu.show")
+    @PostMapping("/getMenuList")
+    public Result getMenuListByCondition(@RequestBody HashMap<String, String> condition) {
+        Page<MenuDTO> pageInstance = new Page<>(Integer.parseInt(condition.get("page")), 10);
+        QueryWrapper wrapper = QueryWrapper.create()
+                .select(MENU.MENU_ID, MENU.URL, MENU.COMPONENT_PATH, MENU.DESCRIPTION)
+                .where(MENU.MENU_ID.like(condition.get("menuId"), If::notNull));
+        Page<MenuDTO> list = menuService.pageAs(pageInstance, wrapper, MenuDTO.class);
+        return Result.success("查询成功", list);
     }
 
     @Operation(summary = "[admin]配置新菜单", description = "配置一个新菜单的信息")

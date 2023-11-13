@@ -66,7 +66,7 @@ public class AdminDeptController {
     @Parameters({
             @Parameter(name = "deptCode", description = "部门编码"),
             @Parameter(name = "deptName", description = "部门名称"),
-            @Parameter(name = "deptName", description = "页码，默认为1"),
+            @Parameter(name = "page", description = "页码，默认为1"),
     })
     @SaCheckPermission("admin.dept.show")
     @PostMapping("/getDeptList")
