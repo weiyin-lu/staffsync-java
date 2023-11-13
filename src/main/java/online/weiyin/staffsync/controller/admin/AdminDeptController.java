@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import online.weiyin.staffsync.entity.Department;
 import online.weiyin.staffsync.request.DepartmentDTO;
-import online.weiyin.staffsync.request.RoleDTO;
 import online.weiyin.staffsync.response.Code;
 import online.weiyin.staffsync.response.Result;
 import online.weiyin.staffsync.service.DepartmentService;
@@ -26,7 +25,6 @@ import java.util.Map;
 import static com.mybatisflex.core.query.QueryMethods.column;
 import static com.mybatisflex.core.query.QueryMethods.count;
 import static online.weiyin.staffsync.entity.table.DepartmentTableDef.DEPARTMENT;
-import static online.weiyin.staffsync.entity.table.RoleTableDef.ROLE;
 
 /**
  * @ClassName AdminDeptController
